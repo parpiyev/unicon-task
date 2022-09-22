@@ -34,11 +34,8 @@ export class TasksService {
         )
         .from('tasks')
         .innerJoin('users', 'tasks.createdBy', 'users.id')
+        .where('recipients', '@>', `{${query.user_id}}`)
         .where({ isDeleted: false });
-
-      tasks = tasks.filter((e) => {
-        return e.recipients.includes(Number(query.user_id));
-      });
     }
 
     return { tasks };
